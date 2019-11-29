@@ -1,0 +1,306 @@
+<!-- <div class="col-md-12">
+  <div class="card m-b-30">
+    <div class="card-header">
+      <h5 class="m-b-0">
+        <i class="mdi mdi-checkbox-intermediate"></i> Partners
+      </h5>
+      <div class="card-controls">
+        <button
+          class="btn btn-primary"
+          [routerLink]="['add-partner']"
+          routerLinkActive="router-link-active"
+        >
+          Edit Details
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="card m-b-30">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-md-7">
+                  <h6 class="fw-600">Cmpany contact details</h6>
+                  <p class="text-muted">
+                    All Custom Attributes
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-12">
+          <div class="card m-b-30">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-md-7">
+                  <h6 class="fw-600">Total Revenue</h6>
+                  <p class="text-muted">
+                    All Custom Attributes
+                  </p>
+                </div>
+                <div class="col-md-5 my-auto text-right">
+                  <h2 class="text-primary">$18M</h2>
+                </div>
+              </div>
+              <div class="progress" style="height: 5px">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 37%"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+              <div class="row m-t-10">
+                <div class="col-md-7">
+                  <p class="text-muted">
+                    Monthly
+                  </p>
+                </div>
+                <div class="col-md-5 text-right">
+                  <p class="text-primary">37%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="data" class="bg-white m-b-10">
+  <div class="container">
+    <div class="text-right">
+      <button
+        class="btn btn-warning mt-1"
+        [routerLink]="['/partners/edit-partner', data._id]"
+        routerLinkActive="router-link-active"
+      >
+        <i class="mdi mdi-lead-pencil"></i> Edit
+      </button>
+    </div>
+    <div class="row p-b-10 p-t-60">
+      <div class="col-md-5  p-b-30">
+        <div class="media">
+          <div class="media-body">
+            <h1 class="capitalize">{{ data.companyName }}</h1>
+            <p class="opacity-75">
+              {{ data.notes }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7  m-b-30 ml-auto">
+        <div class="rounded  bg-white-translucent">
+          <div class="p-all-15">
+            <div class="row">
+              <div class="col-md-6 my-2 m-md-0">
+                <div class="text-overline text-primary">Company contact</div>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-account-box"></i> {{ data.companyName }}
+                </h6>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-email"></i> {{ data.companyEmail }}
+                </h6>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-phone-classic"></i>
+                  {{ data.companyContact }}
+                </h6>
+              </div>
+              <div class="col-md-6 my-2 m-md-0">
+                <div class="text-overline text-success">POC contact</div>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-account-box"></i> {{ data.pocName }}
+                </h6>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-email"></i> {{ data.pocEmail }}
+                </h6>
+                <h6 class="mt-1 text-muted">
+                  <i class="mdi mdi-phone-classic"></i> {{ data.pocContact }}
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h4 class="my-3 text-primary">Locations</h4>
+<div *ngIf="data">
+  <div class="row d-flex">
+    <div class="col-md-12 col-12" *ngFor="let item of data.packages">
+      <div class="card m-b-30 align-self-stretch">
+        <div class="card-header">
+          <h4>Country</h4>
+          <h5 class="m-b-0 text-muted capitalize">
+            {{ item.country.countryName }}
+          </h5>
+          <div class="card-controls">
+            <h4>Airport</h4>
+            <h5 class="m-b-0 text-muted capitalize">
+              {{ item.airport.airportName }}
+            </h5>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- <h5>
+            Packages
+          </h5> -->
+
+          <div class="row">
+            <div class="col-md-2 col-6 " *ngFor="let package of item.priceList">
+              <div class="card pack-card" style="min-height: 100px">
+                <div class="card-body">
+                  <h5 class="capitalize  text-primary pack-name">
+                    {{ package.packageName }}
+                  </h5>
+                  <h3 class="text-success m-0">
+                    <i
+                      [ngClass]="{
+                        'mdi-currency-inr': data.partnerCurrency == 'inr',
+                        'mdi-currency-gbp': data.partnerCurrency == 'gbp',
+                        'mdi-currency-usd': data.partnerCurrency == 'usd',
+                        'mdi-currency-rub': data.partnerCurrency == 'rub',
+                        'mdi-currency-jpy': data.partnerCurrency == 'jpy'
+                      }"
+                      class="mdi"
+                    ></i
+                    >{{ package.cost }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="card">
+                <div class="card-header text-info">
+                  Packages
+                </div>
+                <div class="card-body scroll">
+                  <div
+                    class="p-t-15 p-b-15  border-bottom border-bottom-dashed"
+                    *ngFor="let package of item.priceList"
+                  >
+                    <div class="row ">
+                      <div class="col-md-7">
+                        <h6 class="">{{ package.packageName }}</h6>
+                      </div>
+                      <div class="col-md-5 my-auto  text-right">
+                        <h5 class="text-success m-0">
+                          <i
+                            [ngClass]="{
+                              'mdi-currency-inr': data.partnerCurrency == 'inr',
+                              'mdi-currency-gbp': data.partnerCurrency == 'gbp',
+                              'mdi-currency-usd': data.partnerCurrency == 'usd',
+                              'mdi-currency-rub': data.partnerCurrency == 'rub',
+                              'mdi-currency-jpy': data.partnerCurrency == 'jpy'
+                            }"
+                            class="mdi"
+                          ></i>
+                          {{ package.cost }}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+          <!-- <div class="col-md-6 col-12">
+              <div class="card">
+                <div class="card-header text-info">
+                  POC
+                </div>
+                <div class="card-body scroll">
+                  <div
+                    class="p-t-15 p-b-15  border-bottom border-bottom-dashed"
+                    *ngFor="let p of item.poc"
+                  >
+                    <div class="row ">
+                      <div class="col-md-7">
+                        <h6 class="">{{ p.fullName }}</h6>
+                      </div>
+                      <div class="col-md-5 my-auto  text-right">
+                        <h5 class="text-success m-0">
+                          {{ p.mobile }}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+          <div class="row mt-2" *ngIf="item.notes">
+            <div class="col-12">
+              <div class="card ">
+                <div class="card-header text-info">
+                  Notes
+                </div>
+                <div class="card-body">
+                  <p>{{ item.notes }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card m-b-30">
+  <div class="card-header">
+    <h5 class="m-b-0">
+      <i class="mdi mdi-checkbox-intermediate"></i> Bookings
+    </h5>
+    <div class="card-controls">
+      <button
+        class="btn btn-primary"
+        [routerLink]="['/bookings/add-booking']"
+        routerLinkActive="router-link-active"
+      >
+        Add new booking
+      </button>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="bookingData.length > 0; else noBooking">
+    <div class="table-responsive">
+      <table class="table table-hover ">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Airport</th>
+            <th>No Pax</th>
+            <th>Chauffer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookingData">
+            <td>{{ booking.date }}</td>
+            <td>{{ booking.firstName }} {{ booking.lastName }}</td>
+            <td>{{ booking.airport.airportName }}</td>
+            <td>{{ booking.pax }}</td>
+            <td>True</td>
+            <td class="text-primary">{{ booking.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #noBooking>
+    <div class="card-body text-center">
+      <h4 class="p-4">
+        No bookings yet
+      </h4>
+    </div>
+  </ng-template>
+</div>

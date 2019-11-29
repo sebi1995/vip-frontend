@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~ng-pick-datetime/assets/style/picker.min.css';
+.wrapper {
+  margin: 0px;
+}
+.inline {
+  display: inline;
+}
+.inline-block {
+  display: inline-block;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.black {
+  background-color: #000;
+}
+.uppercase {
+  text-transform: uppercase;
+}

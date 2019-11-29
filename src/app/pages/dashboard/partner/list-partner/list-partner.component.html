@@ -1,0 +1,127 @@
+<div class="col-md-12">
+  <div>
+    <div class="container">
+      <div class="row p-b-60 ">
+        <div class="col-md-6 text-center mx-auto text-black p-b-30">
+          <div class="m-b-10">
+            <div class="avatar ">
+              <div
+                class="avatar-title rounded-circle mdi mdi-checkbox-marked-outline"
+              ></div>
+            </div>
+          </div>
+          <h3 class="mb-4">Partners</h3>
+          <div class="form-light">
+            <div class="input-group input-group-flush mb-3">
+              <input
+                placeholder="Search Partner"
+                type="search"
+                [(ngModel)]="search"
+                class="form-control form-control-lg search form-control-prepended custom-input"
+                (keyup)="filter($event)"
+                id="filterInput"
+              />
+              <div class="input-group-prepend">
+                <div class="input-group-text icon-box">
+                  <i class="mdi mdi-magnify text-black icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pull-up">
+    <div class="card m-b-30 m-t-30">
+      <div class="card-header">
+        <h5 class="m-b-0"><i class="mdi mdi-account"></i> Partners</h5>
+        <div class="card-controls">
+          <button
+            class="btn btn-primary"
+            [routerLink]="['add-partner']"
+            routerLinkActive="router-link-active"
+          >
+            Add new partner
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover ">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>POC Name</th>
+                <th>POC Email</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let partner of partners">
+              <tr [ngClass]="{ 'bg-soft-danger': partner.active == false }">
+                <!-- <td>
+                      <div class="avatar avatar-sm ">
+                        <img
+                          src="assets/img/users/user-6.jpg"
+                          class="avatar-img avatar-sm rounded-circle"
+                          alt=""
+                        />
+                      </div>
+                    </td> -->
+                <td>{{ partner.companyName }}</td>
+                <td>{{ partner.companyEmail }}</td>
+                <td>{{ partner.companyContact }}</td>
+                <td>{{ partner.pocName }}</td>
+                <td>{{ partner.pocEmail }}</td>
+                <td
+                  [ngClass]="{
+                    'text-primary': partner.active == true,
+                    'text-danger': partner.active == false
+                  }"
+                >
+                  <span *ngIf="partner.active == true; else inactive"
+                    >Active</span
+                  >
+                  <ng-template #inactive>Inactive </ng-template>
+                </td>
+                <td class="float-right">
+                  <button
+                    class="btn btn-primary"
+                    [routerLink]="['view-partner', partner._id]"
+                    routerLinkActive="router-link-active"
+                  >
+                    View <i class="mdi mdi-chevron-right"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- <tr class="bg-soft-danger">
+                    <td>
+                      <div class="avatar avatar-sm ">
+                        <img
+                          src="assets/img/users/user-6.jpg"
+                          class="avatar-img avatar-sm rounded-circle"
+                          alt=""
+                        />
+                      </div>
+                    </td>
+                    <td>Tiger Nixon</td>
+                    <td>tiger@gmail.com</td>
+                    <td>7568945112</td>
+                    <td>USA</td>
+                    <td>Inactive</td>
+                    <td class="float-right">
+                      <button class="btn btn-primary">
+                        View <i class="mdi mdi-chevron-right"></i>
+                      </button>
+                    </td>
+                  </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

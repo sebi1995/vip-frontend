@@ -1,0 +1,329 @@
+<section class="admin-content " id="contact-search">
+  <div class="m-b-30">
+    <div class="container">
+      <div class="row p-b-60 p-t-30">
+        <div class="col-md-6 text-center mx-auto text-black p-b-30">
+          <div class="m-b-10">
+            <div class="avatar ">
+              <div
+                class="avatar-title rounded-circle mdi mdi-checkbox-marked-outline"
+              ></div>
+            </div>
+          </div>
+          <h3 class="mb-4">Bookings</h3>
+          <div class="form-light">
+            <div class="input-group input-group-flush mb-3">
+              <input
+                placeholder="Search Booking Number"
+                type="search"
+                class="form-control form-control-lg search form-control-prepended custom-input"
+                (keyup)="filter($event)"
+                id="filterInput"
+              />
+              <div class="input-group-prepend">
+                <div class="input-group-text icon-box">
+                  <i class="mdi mdi-magnify text-black icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="pull-up">
+    <div class="container">
+      <div class="row list">
+        <div class="card m-b-30" style="margin: auto; width: 100% !important">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="mdi mdi-checkbox-intermediate"></i> Bookings
+            </div>
+            <div class="card-controls">
+              <button
+                class="btn btn-primary"
+                [routerLink]="['add-booking']"
+                routerLinkActive="router-link-active"
+                (click)="resetDraftData()"
+              >
+                Add new booking
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <ul class="nav nav-pills nav-justified" id="myTab3" role="tablist">
+              <li class="nav-item" (click)="tabChange('ongoing')">
+                <a
+                  class="nav-link active"
+                  id="home-tab"
+                  data-toggle="tab"
+                  href="#pillhome"
+                  role="tab"
+                  aria-controls="home"
+                  aria-selected="true"
+                  >Ongoing</a
+                >
+              </li>
+              <li class="nav-item" (click)="tabChange('pending')">
+                <a
+                  class="nav-link"
+                  id="profile-tab"
+                  data-toggle="tab"
+                  href="#pillprofile"
+                  role="tab"
+                  aria-controls="profile"
+                  aria-selected="false"
+                  >Pending</a
+                >
+              </li>
+              <li class="nav-item" (click)="tabChange('complete')">
+                <a
+                  class="nav-link"
+                  id="contact-tab"
+                  data-toggle="tab"
+                  href="#pillcontact"
+                  role="tab"
+                  aria-controls="contact"
+                  aria-selected="false"
+                  >Completed</a
+                >
+              </li>
+              <li class="nav-item" (click)="tabChange('cancelled')">
+                <a
+                  class="nav-link"
+                  id="contact-tab"
+                  data-toggle="tab"
+                  href="#cancelled"
+                  role="tab"
+                  aria-controls="contact"
+                  aria-selected="false"
+                  >Cancelled</a
+                >
+              </li>
+              <li class="nav-item" (click)="tabChange('draft')">
+                <a
+                  class="nav-link"
+                  id="contact-tab2"
+                  data-toggle="tab"
+                  href="#pillabout"
+                  role="tab"
+                  aria-selected="false"
+                  >Draft</a
+                >
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div
+                class="tab-pane fade show active"
+                id="pillhome"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+                <table class="table table-hover mt-4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Booking#</th>
+                      <th>Partner Name</th>
+                      <th>Airport</th>
+                      <th>Flight</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of ongoingBookingList">
+                      <td>{{ booking.firstName + ' ' + booking.lastName }}</td>
+                      <td>{{ booking.number }}</td>
+                      <td>{{ booking.partner }}</td>
+                      <td>{{ booking.airport?.airportName }}</td>
+                      <td>{{ booking.flightNumber }}</td>
+                      <td>{{ booking.date }}</td>
+                      <td class="float-right">
+                          <div class="btn-group">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                              </button>
+                              <div class="dropdown-menu dropdown-hover">
+                                <a class="dropdown-item" (click)="cancelBooking(booking)">Cancel</a>
+                                <a class="dropdown-item" [routerLink]="['view-booking', booking._id]">View</a>
+                                <a class="dropdown-item"[routerLink]="['../updatePoc']" [queryParams]="{ bid: booking._id}">Edit Greeter</a>
+                              </div>
+                            </div>
+                        <!-- <button
+                          class="btn btn-primary mr-2"
+                          (click)="cancelBooking(booking)"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          class="btn btn-primary"
+                          [routerLink]="['view-booking', booking._id]"
+                        >
+                          View <i class="mdi mdi-chevron-right"></i>
+                        </button> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pillprofile"
+                role="tabpanel"
+                aria-labelledby="profile-tab"
+              >
+                <table class="table table-hover mt-4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Booking#</th>
+                      <th>Partner</th>
+                      <th>Airport</th>
+                      <th>Flight</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of pendingBookingList">
+                      <td>{{ booking.firstName + ' ' + booking.lastName }}</td>
+                      <td>{{ booking.number }}</td>
+                      <td>{{ booking.partner }}</td>
+                      <td>{{ booking.airport?.airportName }}</td>
+                      <td>{{ booking.flightNumber }}</td>
+                      <td>{{ booking.date }}</td>
+                      <td class="float-right" style="padding-left: 0; padding-right: 0">
+                          <button
+                          class="btn btn-primary"
+                          (click)="cancelBooking(booking)"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          class="btn btn-primary ml-1"
+                          [routerLink]="['view-booking', booking._id]"
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pillcontact"
+                role="tabpanel"
+                aria-labelledby="contact-tab"
+              >
+                <table class="table table-hover mt-4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Booking#</th>
+                      <th>Partner Name</th>
+                      <th>Airport</th>
+                      <th>Flight</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of completedBookingList">
+                      <td>{{ booking.firstName + ' ' + booking.lastName }}</td>
+                      <td>{{ booking.number }}</td>
+                      <td>{{ booking.partner }}</td>
+                      <td>{{ booking.airport?.airportName }}</td>
+                      <td>{{ booking.flightNumber }}</td>
+                      <td>{{ booking.date }}</td>
+                      <td class="float-right">
+                        <button
+                          class="btn btn-primary"
+                          [routerLink]="['view-booking', booking._id]"
+                        >
+                          View <i class="mdi mdi-chevron-right"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="cancelled"
+                role="tabpanel"
+                aria-labelledby="contact-tab"
+              >
+                <table class="table table-hover mt-4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Booking#</th>
+                      <th>Partner Name</th>
+                      <th>Airport</th>
+                      <th>Flight</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of cancelledBookingList">
+                      <td>{{ booking.firstName + ' ' + booking.lastName }}</td>
+                      <td>{{ booking.number }}</td>
+                      <td>{{ booking.partner }}</td>
+                      <td>{{ booking.airport?.airportName }}</td>
+                      <td>{{ booking.flightNumber }}</td>
+                      <td>{{ booking.date }}</td>
+                      <td class="float-right">
+                        <button
+                          class="btn btn-primary"
+                          [routerLink]="['view-booking', booking._id]"
+                        >
+                          View <i class="mdi mdi-chevron-right"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="pillabout" role="tabpanel">
+                <table class="table table-hover mt-4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Booking#</th>
+                      <th>Partner Name</th>
+                      <th>Airport</th>
+                      <th>Flight</th>
+                      <th>Date</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of draftBookingList">
+                      <td>{{ booking.firstName + ' ' + booking.lastName }}</td>
+                      <td>{{ booking.number }}</td>
+                      <td>{{ booking.partner }}</td>
+                      <td>{{ booking.airport?.airportName }}</td>
+                      <td>{{ booking.flightNumber }}</td>
+                      <td>{{ booking.date }}</td>
+                      <td class="float-right">
+                        <button
+                          class="btn btn-primary"
+                          (click)="openBookingForm(booking)"
+                        >
+                          View <i class="mdi mdi-chevron-right"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

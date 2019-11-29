@@ -1,0 +1,56 @@
+<!--widget card begin-->
+
+<div class="card m-b-30 scroll">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="avatar mr-2">
+        <div class="avatar-title rounded bg-dark">
+          <i class="mdi mdi-information"></i>
+        </div>
+      </div>
+      Notifications
+    </div>
+    <div class="card-controls">
+      <!-- <a href="#" class="js-card-refresh icon"> </a>
+      <div class="dropdown">
+        <a
+          href="#"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <i class="icon mdi  mdi-dots-vertical"></i>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <button class="dropdown-item" type="button">Action</button>
+          <button class="dropdown-item" type="button">
+            Another action
+          </button>
+          <button class="dropdown-item" type="button">
+            Something else here
+          </button>
+        </div>
+      </div> -->
+    </div>
+    <hr />
+  </div>
+
+  <div class="list-group list-group-flush ">
+    <div
+      class="list-group-item d-flex  align-items-center "
+      *ngFor="let notification of notifications"
+    >
+      <div>
+        <div>{{ notification.text }}</div>
+        <!-- <div class="text-muted">{{ notification.timestamp }}</div> -->
+      </div>
+
+      <!-- <div class="ml-auto">
+        <a href="#" class="btn  btn-primary">x</a>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--widget card ends-->

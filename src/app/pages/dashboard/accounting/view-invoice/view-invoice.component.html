@@ -1,0 +1,471 @@
+<section class="admin-content">
+  <div class="card m-b-30">
+    <div class="card-controls">
+      <button
+        class="btn btn-success"
+        *ngIf="bookingData.invoice"
+        (click)="sendInvoice()"
+      >
+        Send Invoice
+      </button>
+    </div>
+    <div class="container">
+      <div class="row p-b-60 p-t-60">
+        <div class="col-md-4  p-b-30">
+          <div class="media">
+            <div class="avatar avatar mr-3">
+              <div
+                class="avatar-title bg-success rounded-circle mdi mdi-receipt  "
+              ></div>
+            </div>
+            <div class="media-body">
+              <div class="opacity-75"></div>
+              <h4 class="m-b-0">
+                {{ bookingData.firstName + ' ' + bookingData.lastName }}
+              </h4>
+              <p class="opacity-75">
+                Email : {{ bookingData.email }} <br />
+                Phone : {{ bookingData.phone }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 text-center m-b-30 ml-auto">
+          <div class="rounded  bg-white-translucent">
+            <div class="p-all-15">
+              <div class="row">
+                <div class="col-md-4 my-2 m-md-0">
+                  <div class="text-overline    opacity-75">Booking No.</div>
+                  <h4 class="m-0 text-primary">{{ bookingData.number }}</h4>
+                </div>
+                <div class="col-md-4 my-2 m-md-0">
+                  <div class="text-overline    opacity-75">Partner</div>
+                  <h4 class="m-0 text-primary">{{ bookingData.partner }}</h4>
+                </div>
+                <div class="col-md-4 my-2 m-md-0">
+                  <div class="text-overline    opacity-75">Package</div>
+                  <h4 class="m-0 text-primary">
+                    {{ bookingData.package.packageName }}
+                    <i
+                      [ngClass]="{
+                        'mdi-currency-inr':
+                          bookingData.package.currency == 'inr',
+                        'mdi-currency-gbp':
+                          bookingData.package.currency == 'gbp',
+                        'mdi-currency-usd':
+                          bookingData.package.currency == 'usd',
+                        'mdi-currency-rub':
+                          bookingData.package.currency == 'rub',
+                        'mdi-currency-jpy':
+                          bookingData.package.currency == 'jpy'
+                      }"
+                      class="mdi"
+                    >
+                    </i
+                    >{{ bookingData.package.cost }}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card m-b-30" *ngIf="!bookingData.invoice">
+    <div class="card-header">
+      <h4 class="m-b-0">
+        <span>Generate Invoice</span>
+      </h4>
+    </div>
+    <form [formGroup]="invoiceForm">
+      <div class="card-body ">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Recipient Name</label>
+            <input
+              formControlName="to"
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Recipient Name"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputPassword4">Due Date</label>
+
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              [owlDateTime]="dt1"
+              [owlDateTimeTrigger]="dt1"
+              placeholder="Due Date"
+              formControlName="dueDate"
+            />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+          </div>
+          <div class="form-group col-md-4">
+            <label class="font-secondary">Currency </label>
+            <select
+              class="form-control  form-control-lg"
+              formControlName="currency"
+            >
+              <option value="eur">The Euro</option>
+              <option value="usd">US Dollar</option>
+              <option value="jpy">Japanese Yen</option>
+              <option value="rub">Russian Ruble</option>
+              <option value="gbp" selected>British Pounds</option>
+              <option value="inr">Indian Rupee</option>
+            </select>
+          </div>
+
+          <!-- <div class="form-group col-md-3">
+          <label>VAT</label>
+          <input
+            formControlName="vat"
+            type="text"
+            class="form-control form-control-lg"
+            placeholder="VAT"
+          />
+        </div> -->
+        </div>
+        <span formArrayName="items">
+          <div
+            class="form-row"
+            *ngFor="
+              let item of invoiceForm['controls'].items['controls'];
+              let i = index
+            "
+            [formGroupName]="i"
+          >
+            <div class="form-group col-md-4">
+              <label>Description</label>
+              <input
+                formControlName="description"
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Description"
+              />
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Price</label>
+              <input
+                formControlName="price"
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Price"
+              />
+            </div>
+            <div class="form-group col-md-4">
+              <label></label>
+              <button
+                *ngIf="i == 0; else remove"
+                class=" btn btn-lg btn-outline-primary  btn-block mt-2"
+                (click)="addItem()"
+              >
+                Add more
+              </button>
+              <ng-template #remove>
+                <div
+                  class="text-danger text-center pointer mt-3"
+                  (click)="removeItem(i)"
+                >
+                  Remove
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </span>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Sub Total</label>
+            <input
+              formControlName="subTotal"
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Sub Total"
+            />
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Vat</label>
+            <input
+              formControlName="vat"
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="VAT"
+            />
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Total</label>
+            <input
+              formControlName="total"
+              type="text"
+              class="form-control form-control-lg"
+              placeholder="Total"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button
+              class="btn btn-lg btn-primary float-right"
+              (click)="submit()"
+            >
+              Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!--site header begins-->
+
+<!--site header ends -->
+<section class="admin-content" *ngIf="bookingData.invoice">
+  <div class="row">
+    <div class="col-md-12 m-b-40">
+      <div class="card">
+        <div class="card-body">
+          <div class="row ">
+            <div class="col-md-6 ">
+              <address class="m-t-10 text-white">
+                <img
+                  src="https://corev1-diahdogqpo.now.sh/img/logo.svg"
+                  width="300px"
+                />
+              </address>
+            </div>
+
+            <div class="col-md-6 text-right my-auto ">
+              <h1 class="font-primary">INVOICE</h1>
+              <div class="">Invoice Number: #{{ bookingData.number }}</div>
+              <div class="">Date: {{ bookingData.invoice.date }}</div>
+              <div class="">Due Date: {{ bookingData.invoice.dueDate }}</div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-md-6">
+              <address class="m-t-10">
+                To,<br />
+                <span class="h4 font-primary">
+                  {{ bookingData.invoice.to }}</span
+                >
+                <br />
+                <!-- The New York Times Building <br />
+                        620 Eighth Avenue <br />
+                        New York City, New York 10018 <br /> -->
+              </address>
+            </div>
+            <div class="col-md-6 text-right my-auto mt-5">
+              <h4 class="font-primary">Total Amount</h4>
+              <h1 class="font-primary">
+                <i
+                  [ngClass]="{
+                    'mdi-currency-inr': bookingData.invoice.currency == 'inr',
+                    'mdi-currency-gbp': bookingData.invoice.currency == 'gbp',
+                    'mdi-currency-usd': bookingData.invoice.currency == 'usd',
+                    'mdi-currency-rub': bookingData.invoice.currency == 'rub',
+                    'mdi-currency-jpy': bookingData.invoice.currency == 'jpy'
+                  }"
+                  class="mdi"
+                >
+                </i>
+                {{ bookingData.invoice.total }}
+              </h1>
+            </div>
+          </div>
+
+          <div class="table-responsive ">
+            <table class="table m-t-50">
+              <thead>
+                <tr>
+                  <th class="">Item Description</th>
+                  <th class="text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of bookingData.invoice.items">
+                  <td class="">
+                    <p class="text-black m-0">
+                      {{ item.description }}
+                    </p>
+                    <!-- <p class="text-muted">
+                              Lorem ipsum dolor sit amet, consectetur
+                              adipisicing elit.
+                            </p> -->
+                  </td>
+
+                  <td class="text-right">
+                    <i
+                      [ngClass]="{
+                        'mdi-currency-inr':
+                          bookingData.invoice.currency == 'inr',
+                        'mdi-currency-gbp':
+                          bookingData.invoice.currency == 'gbp',
+                        'mdi-currency-usd':
+                          bookingData.invoice.currency == 'usd',
+                        'mdi-currency-rub':
+                          bookingData.invoice.currency == 'rub',
+                        'mdi-currency-jpy':
+                          bookingData.invoice.currency == 'jpy'
+                      }"
+                      class="mdi"
+                    >
+                    </i>
+                    {{ item.price }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="1" class="text-right">
+                    Sub Total
+                  </td>
+                  <td colspan="2" class="text-right">
+                    <i
+                      [ngClass]="{
+                        'mdi-currency-inr':
+                          bookingData.invoice.currency == 'inr',
+                        'mdi-currency-gbp':
+                          bookingData.invoice.currency == 'gbp',
+                        'mdi-currency-usd':
+                          bookingData.invoice.currency == 'usd',
+                        'mdi-currency-rub':
+                          bookingData.invoice.currency == 'rub',
+                        'mdi-currency-jpy':
+                          bookingData.invoice.currency == 'jpy'
+                      }"
+                      class="mdi"
+                    >
+                    </i>
+                    {{ bookingData.invoice.subTotal }}
+                  </td>
+                </tr>
+
+                <tr class="">
+                  <td colspan="1" class="text-right">
+                    Vat
+                  </td>
+                  <td colspan="2" class="text-right">
+                    <i
+                      [ngClass]="{
+                        'mdi-currency-inr':
+                          bookingData.invoice.currency == 'inr',
+                        'mdi-currency-gbp':
+                          bookingData.invoice.currency == 'gbp',
+                        'mdi-currency-usd':
+                          bookingData.invoice.currency == 'usd',
+                        'mdi-currency-rub':
+                          bookingData.invoice.currency == 'rub',
+                        'mdi-currency-jpy':
+                          bookingData.invoice.currency == 'jpy'
+                      }"
+                      class="mdi"
+                    >
+                    </i>
+                    {{ bookingData.invoice.vat }}
+                  </td>
+                </tr>
+                <tr class="bg-light">
+                  <td colspan="1" class="text-right">
+                    Total
+                  </td>
+                  <td colspan="2" class="text-right ">
+                    <h3>
+                      <i
+                        [ngClass]="{
+                          'mdi-currency-inr':
+                            bookingData.invoice.currency == 'inr',
+                          'mdi-currency-gbp':
+                            bookingData.invoice.currency == 'gbp',
+                          'mdi-currency-usd':
+                            bookingData.invoice.currency == 'usd',
+                          'mdi-currency-rub':
+                            bookingData.invoice.currency == 'rub',
+                          'mdi-currency-jpy':
+                            bookingData.invoice.currency == 'jpy'
+                        }"
+                        class="mdi"
+                      >
+                      </i>
+                      {{ bookingData.invoice.total }}
+                    </h3>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="p-t-10 p-b-20">
+            <div class="row my-5">
+              <div class="col-12">
+                <h3 class="text-center">Thank You</h3>
+              </div>
+            </div>
+            <hr />
+            <div class="text-center opacity-75">
+              &copy; VIProtocol 2019
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <button
+        class="btn btn-lg btn-success float-right"
+        (click)="sendInvoice()"
+      >
+        Send Invoice
+      </button>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade "
+  id="modalSuccess"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div class="px-3 pt-3 text-center">
+          <div class="event-type success">
+            <div class="event-indicator ">
+              <i class="mdi mdi-check text-white" style="font-size: 60px"></i>
+            </div>
+          </div>
+          <h3 class="p-5">
+            Invoice sent to
+            {{ bookingData.firstName + ' ' + bookingData.lastName }}
+          </h3>
+          <!-- <p class="text-muted">
+            Now you can sync all of your devices
+          </p> -->
+        </div>
+      </div>
+      <!-- <div class="modal-footer ">
+        <a class="btn btn-success" data-dismiss="modal" aria-label="Close"
+          >Close</a
+        >
+      </div> -->
+    </div>
+  </div>
+</div>

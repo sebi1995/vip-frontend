@@ -1,0 +1,404 @@
+<div *ngIf="bookingData" class="bg-white m-b-10">
+  <div class="container">
+    <span class="text-left  inline">
+      <button
+        [ngClass]="{
+          'btn-success': bookingData.status == 'Active',
+          'btn-warning': bookingData.status == 'Pending',
+          'btn-primary': bookingData.status == 'Completed'
+        }"
+        class="btn mt-1 inline"
+      >
+        {{ bookingData.status }}
+      </button>
+    </span>
+    <span class="float-right">
+      <!-- <button
+        class="btn btn-warning mt-1"
+        [routerLink]="['/partners/edit-partner', bookingData._id]"
+        routerLinkActive="router-link-active"
+      >
+        <i class="mdi mdi-lead-pencil"></i> Edit
+      </button> -->
+      <div class="text-right">
+        <button
+          class="btn btn-warning mt-1"
+          (click)="openBookingForm(bookingData)"
+        >
+          <i class="mdi mdi-lead-pencil"></i> Edit
+        </button>
+      </div>
+    </span>
+    <div class="row p-b-10 p-t-60">
+      <div class="col-md-4  p-b-30">
+        <div class="media">
+          <div class="media-body">
+            <h1 class="capitalize">
+              {{ bookingData.firstName }} {{ bookingData.lastName }}
+            </h1>
+
+            <h6 class="mt-1 text-muted">
+              <i class="mdi mdi-email"></i> {{ bookingData.email }}
+            </h6>
+            <h6 class="mt-1 text-muted">
+              <i class="mdi mdi-phone-classic"></i> {{ bookingData.phone }}
+            </h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 text-center m-b-30 ml-auto">
+        <div class="rounded  bg-white-translucent">
+          <div class="p-all-15">
+            <div class="row">
+              <div class="col-md-4 my-2 m-md-0">
+                <div class="text-overline    opacity-75">Booking No.</div>
+                <h3 class="m-0 text-primary">#{{ bookingData.number }}</h3>
+              </div>
+              <div class="col-md-4 my-2 m-md-0">
+                <div class="text-overline    opacity-75">Bags</div>
+                <h3 class="m-0 text-primary">{{ bookingData.bags }}</h3>
+              </div>
+              <div class="col-md-4 my-2 m-md-0">
+                <div class="text-overline    opacity-75">PAX</div>
+                <h3 class="m-0 text-primary">
+                  {{ bookingData.pax }}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- new booking block -->
+<div class="row">
+  <div class="col-md-6 col-12">
+    <h4 class="my-3 text-primary ml-2 pl-2">Flight Details</h4>
+    <!--  flight details start -->
+    <div class="col-md-12 col-12">
+      <div class="card mb-30">
+        <div class="card-body">
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-md-6 col-6">
+              <div class="text-overline text-muted">
+                <span
+                  *ngIf="
+                    bookingData?.departureDate == undefined;
+                    else connectingArrivalType
+                  "
+                  >{{ bookingData?.bookingType }}</span
+                >
+                <ng-template #connectingArrivalType>Arrival</ng-template>
+              </div>
+              <h6 class="capitalize">
+                {{ bookingData?.airport.airportName }} (
+                <span class="uppercase">{{
+                  bookingData?.airport.airportCode
+                }}</span
+                >)
+              </h6>
+              <div class="text-muted small capitalize">
+                {{ bookingData?.country.countryName }}
+              </div>
+            </div>
+            <!-- departure data -->
+            <div
+              class="col-md-6 col-6 text-right"
+              *ngIf="bookingData?.departureFlightNumber"
+            >
+              <div class="text-overline text-muted">
+                <span
+                  *ngIf="
+                    bookingData?.departureDate == undefined;
+                    else connectingDepartureType
+                  "
+                  >{{ bookingData?.bookingType }}</span
+                >
+                <ng-template #connectingDepartureType>Departure</ng-template>
+              </div>
+              <h6 class="capitalize">
+                {{ bookingData?.airport.airportName }} (
+                <span class="uppercase">{{
+                  bookingData?.airport.airportCode
+                }}</span
+                >)
+              </h6>
+              <div class="text-muted small capitalize">
+                {{ bookingData?.country.countryName }}
+              </div>
+            </div>
+          </div>
+          <!-- flight no start -->
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="m-r-20"><i class="mdi mdi-airplane"></i></div>
+                  <div class="">
+                    <div class="text-muted text-overline text-right">
+                      Flight Number
+                    </div>
+                    <div>{{ bookingData?.flightNumber }}</div>
+                  </div>
+
+                  <div
+                    class="ml-auto text-right"
+                    *ngIf="bookingData?.departureDate != undefined"
+                  >
+                    <div class="text-muted text-overline">Flight Number</div>
+                    <div>{{ bookingData?.departureFlightNumber }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- flight no end -->
+
+          <!-- flight date start -->
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="m-r-20">
+                    <i class="mdi mdi-calendar-multiselect"></i>
+                  </div>
+                  <div class="">
+                    <div class="text-muted text-overline">
+                      Flight Date
+                    </div>
+                    <div>{{ bookingData?.date }}</div>
+                  </div>
+
+                  <div
+                    class="ml-auto text-right"
+                    *ngIf="bookingData?.departureDate != undefined"
+                  >
+                    <div class="text-muted text-overline text-right">
+                      Flight Date
+                    </div>
+                    <div>{{ bookingData?.departureDate }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- flight date end -->
+          <!-- flight time start -->
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="m-r-20">
+                    <i class="mdi mdi-timer"></i>
+                  </div>
+                  <div class="">
+                    <div class="text-muted text-overline text-right">
+                      Flight Time
+                    </div>
+                    <div>{{ bookingData?.time }}</div>
+                  </div>
+
+                  <div
+                    class="ml-auto text-right"
+                    *ngIf="bookingData?.departureDate != undefined"
+                  >
+                    <div class="text-muted text-overline text-right">
+                      Flight time
+                    </div>
+                    <div>{{ bookingData?.departureTime }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  flight time end -->
+
+          <!-- booking notes start -->
+          <div class="row">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="m-r-20">
+                    <i class="mdi mdi-notebook"></i>
+                  </div>
+                  <div class="">
+                    <div class="text-muted text-overline text-right">
+                      Booking Notes
+                    </div>
+                    <div>{{ bookingData?.bookingNotes }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- flight details end -->
+  </div>
+  <div class="col-md-6 col-12">
+    <h4 class="my-3 text-primary ml-2 pl-2">Partner Details</h4>
+    <!--  partner details start -->
+    <div class="col-md-12 col-12">
+      <div class="card mb-30">
+        <div class="card-body">
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-12">
+              <div class="text-overline text-muted">
+                Partner Name
+              </div>
+              <h6 class="capitalize">{{ bookingData?.partner }}</h6>
+            </div>
+          </div>
+
+          <div class="row border-bottom border-bottom-dashed pb-3">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="m-r-20"><i class="mdi mdi-package"></i></div>
+                  <div class="">
+                    <div class="text-muted text-overline text-right">
+                      Package
+                    </div>
+                    <div>{{ bookingData?.package.packageName }}</div>
+                  </div>
+
+                  <div class="ml-auto ">
+                    <h2 class="text-primary">
+                      <i
+                        [ngClass]="{
+                          'mdi-currency-inr':
+                            bookingData?.package.currency == 'inr',
+                          'mdi-currency-gbp':
+                            bookingData?.package.currency == 'gbp',
+                          'mdi-currency-usd':
+                            bookingData?.package.currency == 'usd',
+                          'mdi-currency-rub':
+                            bookingData?.package.currency == 'rub',
+                          'mdi-currency-jpy':
+                            bookingData?.package.currency == 'jpy'
+                        }"
+                        class="mdi"
+                      ></i
+                      >{{ bookingData?.package.cost }}
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row  pb-1">
+            <div class="col-12">
+              <div class="list-group list-group-flush ">
+                <div class="list-group-item d-flex  align-items-center">
+                  <div class="">
+                    <h6 class="">
+                      POC Details
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span *ngIf="bookingData?.poc; else noPoc">
+            <div class="row border-bottom border-bottom-dashed  pb-3">
+              <div class="col-12">
+                <div class="list-group list-group-flush ">
+                  <div class="list-group-item d-flex  align-items-center">
+                    <div class="m-r-20">
+                      <i class="mdi mdi-account-box"></i>
+                    </div>
+                    <div class="">
+                      <div class="text-muted text-overline">POC Name</div>
+                      <div>{{ bookingData.poc }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row  pb-3">
+              <div class="col-12">
+                <div class="list-group list-group-flush ">
+                  <div class="list-group-item d-flex  align-items-center">
+                    <div class="m-r-20"><i class="mdi mdi-cellphone"></i></div>
+                    <div class="">
+                      <div class="text-muted text-overline">POC Contact</div>
+                      <div>{{ bookingData.pocContact }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+
+          <ng-template #noPoc>
+            <div class="row">
+              <div class="col-12 my-2 ">
+                <div class="text-overline text-danger ml-4">
+                  POC details not added by the partner
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <!-- partner details end -->
+  </div>
+</div>
+
+<!-- new booking block end  -->
+
+<h4
+  class="my-3 text-primary"
+  *ngIf="
+    bookingData?.transferContact ||
+    bookingData?.transferNotes ||
+    bookingData?.transferType != 'None'
+  "
+>
+  Transfer
+</h4>
+
+<div
+  class="row"
+  *ngIf="
+    bookingData?.transferContact ||
+    bookingData?.transferNotes ||
+    bookingData?.transferType != 'None'
+  "
+>
+  <div class="col-md-12 col-12">
+    <div class="card m-b-30 ">
+      <div class="card-body">
+        <!-- <div class="row">
+            <h6>Bags: 3</h6>
+            <h6>Pax: 3</h6>
+        </div> -->
+        <div class="table-responsive">
+          <table class="table table-hover ">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Contact</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ bookingData?.transferType }}</td>
+                <td>{{ bookingData?.transferContact }}</td>
+                <td>{{ bookingData?.transferNotes }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- {{ bookingData.transferNotes }} -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

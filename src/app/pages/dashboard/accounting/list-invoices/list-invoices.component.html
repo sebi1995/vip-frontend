@@ -1,0 +1,374 @@
+<div class="col-md-12">
+  <div>
+    <div class="container">
+      <div class="row p-b-60 ">
+        <div class="col-md-6 text-center mx-auto text-black p-b-30">
+          <div class="m-b-10">
+            <div class="avatar ">
+              <div
+                class="avatar-title rounded-circle mdi mdi-checkbox-marked-outline"
+              ></div>
+            </div>
+          </div>
+          <h3 class="mb-4">Invoices</h3>
+          <div class="form-light">
+            <div class="input-group input-group-flush mb-3">
+              <input
+                placeholder="Search Bookings"
+                type="search"
+                [(ngModel)]="search"
+                class="form-control form-control-lg search form-control-prepended custom-input"
+                (keyup)="filter($event)"
+                id="filterInput"
+              />
+              <div class="input-group-prepend">
+                <div class="input-group-text icon-box">
+                  <i class="mdi mdi-magnify text-black icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pull-up">
+    <div class="card m-b-30">
+      <div class="card-body">
+        <ul class="nav nav-tabs tab-line" id="myTab2" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="home-tab2"
+              data-toggle="tab"
+              href="#line-completed"
+              role="tab"
+              aria-controls="completed"
+              aria-selected="true"
+              (click)="tabChange('complete')"
+              >Completed</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="profile-tab2"
+              data-toggle="tab"
+              href="#line-ongoing"
+              role="tab"
+              aria-controls="ongoing"
+              aria-selected="false"
+              (click)="tabChange('ongoing')"
+              >Ongoing</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="contact-tab3"
+              data-toggle="tab"
+              href="#line-pending"
+              role="tab"
+              aria-controls="pending"
+              aria-selected="false"
+              (click)="tabChange('pending')"
+              >Pending</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="contact-tab3"
+              data-toggle="tab"
+              href="#line-cancelled"
+              role="tab"
+              aria-controls="cancelled"
+              aria-selected="false"
+              (click)="tabChange('cancelled')"
+              >Cancelled</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent2">
+          <div
+            class="tab-pane fade show active"
+            id="line-completed"
+            role="tabpanel"
+            aria-labelledby="completed-tab"
+          >
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="">
+                    <tr>
+                      <th scope="col">Booking #</th>
+                      <th scope="col">Booking Date</th>
+
+                      <th scope="col">Client</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Partner</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of completedBookingList">
+                      <td class="align-middle">#{{ booking.number }}</td>
+
+                      <td class="align-middle">{{ booking.date }}</td>
+                      <td class="align-middle">
+                        {{ booking.firstName + ' ' + booking.lastName }}
+                      </td>
+                      <td class="align-middle">
+                        <span
+                          class=" text-success"
+                          *ngIf="booking.invoice; else notGenerated"
+                          ><i class="mdi mdi-check-circle "></i> Generated</span
+                        >
+                        <ng-template #notGenerated>
+                          <span class="text-danger">
+                            <i class="mdi mdi-close-circle "></i> Not
+                            Generated</span
+                          >
+                        </ng-template>
+                      </td>
+                      <td class="align-middle">
+                        <h6 class=" m-0">{{ booking.partner }}</h6>
+                      </td>
+                      <td class="align-middle">
+                        <div class="input-group text-right">
+                          <div class="input-group-prepend">
+                            <a
+                              *ngIf="booking.invoice; else generateButton"
+                              [routerLink]="['view-invoice', booking._id]"
+                              class="btn btn-white size"
+                              >View</a
+                            >
+                            <ng-template #generateButton
+                              ><a
+                                [routerLink]="['view-invoice', booking._id]"
+                                class="btn btn-white size"
+                                >Generate</a
+                              ></ng-template
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="line-ongoing"
+            role="tabpanel"
+            aria-labelledby="ongoing-tab"
+          >
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="">
+                    <tr>
+                      <th scope="col">Booking #</th>
+                      <th scope="col">Booking Date</th>
+
+                      <th scope="col">Client</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Partner</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of activeBookingList">
+                      <td class="align-middle">#{{ booking.number }}</td>
+
+                      <td class="align-middle">{{ booking.date }}</td>
+                      <td class="align-middle">
+                        {{ booking.firstName + ' ' + booking.lastName }}
+                      </td>
+                      <td class="align-middle">
+                        <span
+                          class=" text-success"
+                          *ngIf="booking.invoice; else notGenerated"
+                          ><i class="mdi mdi-check-circle "></i> Generated</span
+                        >
+                        <ng-template #notGenerated>
+                          <span class="text-danger">
+                            <i class="mdi mdi-close-circle "></i> Not
+                            Generated</span
+                          >
+                        </ng-template>
+                      </td>
+                      <td class="align-middle">
+                        <h6 class=" m-0">{{ booking.partner }}</h6>
+                      </td>
+                      <td class="align-middle">
+                        <div class="input-group text-right">
+                          <div class="input-group-prepend">
+                            <a
+                              *ngIf="booking.invoice; else generateButton"
+                              [routerLink]="['view-invoice', booking._id]"
+                              class="btn btn-white size"
+                              >View</a
+                            >
+                            <ng-template #generateButton
+                              ><a
+                                [routerLink]="['view-invoice', booking._id]"
+                                class="btn btn-white size"
+                                >Generate</a
+                              ></ng-template
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="line-pending"
+            role="tabpanel"
+            aria-labelledby="pending-tab"
+          >
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="">
+                    <tr>
+                      <th scope="col">Booking #</th>
+                      <th scope="col">Booking Date</th>
+
+                      <th scope="col">Client</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Partner</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of pendingBookingList">
+                      <td class="align-middle">#{{ booking.number }}</td>
+
+                      <td class="align-middle">{{ booking.date }}</td>
+                      <td class="align-middle">
+                        {{ booking.firstName + ' ' + booking.lastName }}
+                      </td>
+                      <td class="align-middle">
+                        <span
+                          class=" text-success"
+                          *ngIf="booking.invoice; else notGenerated"
+                          ><i class="mdi mdi-check-circle "></i> Generated</span
+                        >
+                        <ng-template #notGenerated>
+                          <span class="text-danger">
+                            <i class="mdi mdi-close-circle "></i> Not
+                            Generated</span
+                          >
+                        </ng-template>
+                      </td>
+                      <td class="align-middle">
+                        <h6 class=" m-0">{{ booking.partner }}</h6>
+                      </td>
+                      <td class="align-middle">
+                        <div class="input-group text-right">
+                          <div class="input-group-prepend">
+                            <a
+                              *ngIf="booking.invoice; else generateButton"
+                              [routerLink]="['view-invoice', booking._id]"
+                              class="btn btn-white size"
+                              >View</a
+                            >
+                            <ng-template #generateButton
+                              ><a
+                                [routerLink]="['view-invoice', booking._id]"
+                                class="btn btn-white size"
+                                >Generate</a
+                              ></ng-template
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="line-cancelled"
+            role="tabpanel"
+            aria-labelledby="cancelled-tab"
+          >
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="">
+                    <tr>
+                      <th scope="col">Booking #</th>
+                      <th scope="col">Booking Date</th>
+
+                      <th scope="col">Client</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Partner</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let booking of cancelledBookingList">
+                      <td class="align-middle">#{{ booking.number }}</td>
+
+                      <td class="align-middle">{{ booking.date }}</td>
+                      <td class="align-middle">
+                        {{ booking.firstName + ' ' + booking.lastName }}
+                      </td>
+                      <td class="align-middle">
+                        <span
+                          class=" text-success"
+                          *ngIf="booking.invoice; else notGenerated"
+                          ><i class="mdi mdi-check-circle "></i> Generated</span
+                        >
+                        <ng-template #notGenerated>
+                          <span class="text-danger">
+                            <i class="mdi mdi-close-circle "></i> Not
+                            Generated</span
+                          >
+                        </ng-template>
+                      </td>
+                      <td class="align-middle">
+                        <h6 class=" m-0">{{ booking.partner }}</h6>
+                      </td>
+                      <td class="align-middle">
+                        <div class="input-group text-right">
+                          <div class="input-group-prepend">
+                            <a
+                              *ngIf="booking.invoice; else generateButton"
+                              [routerLink]="['view-invoice', booking._id]"
+                              class="btn btn-white size"
+                              >View</a
+                            >
+                            <ng-template #generateButton
+                              ><a
+                                [routerLink]="['view-invoice', booking._id]"
+                                class="btn btn-white size"
+                                >Generate</a
+                              ></ng-template
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

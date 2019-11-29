@@ -1,0 +1,458 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="card m-b-30">
+        <div class="card-header header-color">
+          <h5 class="m-b-0">
+            BOOKING FORM
+          </h5>
+        </div>
+        <div class="card-body custom-padding">
+          <form [formGroup]="bookingForm">
+            <div class="form-row mt-3  px-4">
+              <div class="col-md-6 mb-3">
+                <input
+                  [ngClass]="{
+                    'input-background':
+                      bookingForm.controls.partnersAndCountries.value
+                  }"
+                  type="text"
+                  class="form-control"
+                  (keyup)="fetch($event)"
+                  formControlName="partnersAndCountries"
+                  (change)="selectedItem($event)"
+                  id="userIdFirstWay"
+                  list="dynmicUserIds"
+                  placeholder="Search Partner or Country"
+                />
+                <datalist id="dynmicUserIds">
+                  <option
+                    *ngFor="let item of partnersAndCountriesList"
+                    [value]="item.name"
+                    >{{ item.name }}
+                  </option>
+                </datalist>
+              </div>
+              <div *ngIf="firstInput === 'partner'" class="col-md-3 mb-3">
+                <select
+                  formControlName="country"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.country.value
+                  }"
+                  #t
+                  class="form-control capitalize"
+                  (change)="setCountryCode()"
+                >
+                  <option [value]="null">Select Country</option>
+                  <option
+                    *ngFor="let country of countryList"
+                    [value]="country.countryCode"
+                    >{{ country.countryName }}</option
+                  >
+                </select>
+              </div>
+              <div *ngIf="firstInput === 'partner'" class="col-md-3 mb-3">
+                <select
+                  class="form-control capitalize"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.airport.value
+                  }"
+                  formControlName="airport"
+                  (change)="setPackage()"
+                >
+                  <option [value]="null">Select Airport</option>
+                  <option
+                    *ngFor="let airport of airportList"
+                    [value]="airport.airportCode"
+                    >{{ airport.airportName }}</option
+                  >
+                </select>
+              </div>
+              <div *ngIf="firstInput === 'country'" class="col-md-3 mb-3">
+                <select
+                  class="form-control capitalize"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.airport.value
+                  }"
+                  formControlName="airport"
+                  #t
+                  (change)="getPartnersByCountry(t.value)"
+                >
+                  <option [value]="null">Select Airport</option>
+                  <option
+                    *ngFor="let airport of airportList"
+                    [value]="airport.airportCode"
+                    >{{ airport.airportName }}</option
+                  >
+                </select>
+              </div>
+              <div *ngIf="firstInput === 'country'" class="col-md-3 mb-3">
+                <select
+                  class="form-control capitalize"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.partner.value
+                  }"
+                  formControlName="partner"
+                  #t
+                  (change)="getPartner(t.value)"
+                >
+                  <option [value]="null">Select a Partner</option>
+                  <option
+                    *ngFor="let partner of partnerList"
+                    [value]="partner.id"
+                    >{{ partner.name }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="form-row  px-4 mb-3">
+              <div class="form-group col-md-6">
+                <select
+                  class="form-control capitalize"
+                  formControlName="package"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.package.value
+                  }"
+                  #t
+                  (change)="setPrice()"
+                >
+                  <option [value]="null">Select a Package</option>
+                  <option
+                    *ngFor="let package of packagePrices"
+                    [value]="package.packageName"
+                    >{{ package.packageName }}</option
+                  >
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <select
+                  class="form-control capitalize"
+                  formControlName="type"
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.type.value
+                  }"
+                  #t
+                  (change)="setData()"
+                >
+                  <option [value]="null">Type</option>
+                  <option *ngFor="let type of typeList" [value]="type.value">{{
+                    type.name
+                  }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row  px-4">
+              <div class="form-group col-md-12">
+                <textarea
+                  type="text"
+                  class="form-control"
+                  aria-label="Booking note"
+                  [ngClass]="{
+                    'input-background': bookingForm.controls.bookingNote.value
+                  }"
+                  rows="4"
+                  formControlName="bookingNote"
+                  placeholder="Booking note"
+                ></textarea>
+              </div>
+            </div>
+            <div class="dotted-border">
+              <div class="form-row mt-3 px-4">
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.firstname.value
+                    }"
+                    formControlName="firstname"
+                    placeholder="Firstname"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.lastname.value
+                    }"
+                    formControlName="lastname"
+                    placeholder="Lastname"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.displayName.value
+                    }"
+                    formControlName="displayName"
+                    placeholder="Display Name"
+                  />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <input
+                    type="text"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.email.value
+                    }"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="contact"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.contact.value
+                    }"
+                    placeholder="Contact"
+                  />
+                </div>
+              </div>
+              <div class="form-row px-4">
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.date.value
+                    }"
+                    [owlDateTime]="dt2"
+                    [owlDateTimeTrigger]="dt2"
+                    formControlName="date"
+                    placeholder="Select a Date"
+                  />
+                  <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.flight.value
+                    }"
+                    type="text"
+                    class="form-control"
+                    formControlName="flight"
+                    placeholder="Flight#"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="text"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.time.value
+                    }"
+                    class="form-control"
+                    [owlDateTime]="dt3"
+                    [owlDateTimeTrigger]="dt3"
+                    formControlName="time"
+                    placeholder="Time"
+                  />
+                  <owl-date-time [pickerType]="'timer'" #dt3></owl-date-time>
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="number"
+                    [ngClass]="{
+                      'input-background': bookingForm.controls.price.value
+                    }"
+                    class="form-control"
+                    formControlName="price"
+                    placeholder="Price"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="number"
+                    [ngClass]="{
+                      'nuber-background': bookingForm.controls.pax.value
+                    }"
+                    class="form-control"
+                    formControlName="pax"
+                    placeholder="PAX"
+                  />
+                </div>
+                <div class="col-md-2 mb-3">
+                  <input
+                    type="number"
+                    [ngClass]="{
+                      'nuber-background': bookingForm.controls.bags.value
+                    }"
+                    class="form-control"
+                    formControlName="bags"
+                    placeholder="Bags"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="bookingForm.controls.type.value === 'Connecting'"
+              class="dotted-border-dep"
+            >
+              <div class="form-row  px-4 mt-3">
+                <div class="form-group col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [owlDateTime]="dt5"
+                    [owlDateTimeTrigger]="dt5"
+                    [ngClass]="{
+                      'input-background':
+                        bookingForm.controls.departureDate.value
+                    }"
+                    placeholder="Departure Date"
+                    formControlName="departureDate"
+                  />
+                  <owl-date-time [pickerType]="'calendar'" #dt5></owl-date-time>
+                </div>
+                <div class="form-group col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [owlDateTime]="dt4"
+                    [owlDateTimeTrigger]="dt4"
+                    placeholder="Departure Time"
+                    [ngClass]="{
+                      'input-background':
+                        bookingForm.controls.departureTime.value
+                    }"
+                    formControlName="departureTime"
+                  />
+                  <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                </div>
+                <div class="form-group col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Departure flight#"
+                    [ngClass]="{
+                      'input-background':
+                        bookingForm.controls.departureFlightNumber.value
+                    }"
+                    formControlName="departureFlightNumber"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row  px-4 mt-3">
+              <div class="form-group col-md-3">
+                <select
+                  [ngClass]="{
+                    'select-background': bookingForm.controls.transfer.value
+                  }"
+                  formControlName="transfer"
+                  class="form-control capitalize"
+                >
+                  <option [value]="null">Select Transfer</option>
+                  <option
+                    *ngFor="let transfer of transferType"
+                    [value]="transfer.value"
+                    >{{ transfer.name }}</option
+                  >
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="{
+                    'input-background':
+                      bookingForm.controls.transferContact.value
+                  }"
+                  formControlName="transferContact"
+                  placeholder="Transfer Contact"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <input
+                  type="text"
+                  [ngClass]="{
+                    'input-background': bookingForm.controls.transferNote.value
+                  }"
+                  class="form-control"
+                  formControlName="transferNote"
+                  placeholder="Transfer Note"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card m-b-30">
+        <div class="card-header  header-color">
+          <h5 class="m-b-0">
+            BOOKING OVERVIEW
+          </h5>
+        </div>
+        <div class="card-body custom-padding">
+          <div class="px-3 overview">
+            <p *ngIf="bookingForm.controls.country.value">
+              Country:
+              <span class="text-uppercase">{{
+                bookingForm.controls.country.value
+              }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.airport.value">
+              Airport:
+              <span class="text-uppercase">{{
+                bookingForm.controls.airport.value
+              }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.package.value">
+              Package: <span>{{ bookingForm.controls.package.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.price.value">
+              Price: <span>{{ bookingForm.controls.price.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.type.value">
+              Type: <span>{{ bookingForm.controls.type.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.firstname.value">
+              Firstname: <span>{{ bookingForm.controls.firstname.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.lastname.value">
+              Lastname: <span>{{ bookingForm.controls.lastname.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.displayName.value">
+              Display Name:
+              <span>{{ bookingForm.controls.displayName.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.email.value">
+              Email: <span>{{ bookingForm.controls.email.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.contact.value">
+              Contact:
+              <span>{{ bookingForm.controls.contact.value }}</span>
+            </p>
+            <p *ngIf="bookingForm.controls.flight.value">
+              Flight#: <span>{{ bookingForm.controls.flight.value }}</span>
+            </p>
+          </div>
+          <hr class="dotted-hr" />
+          <div
+            *ngIf="bookingDataType === 'draft' || bookingDataType === null"
+            class="wrapper"
+          >
+            <button class="btn btn-primary mx-1" (click)="submitDraft()">
+              Save Draft
+            </button>
+            <button class="btn btn-primary" (click)="submitBooking()">
+              Submit Booking
+            </button>
+          </div>
+          <div *ngIf="bookingDataType === 'edit'" class="wrapper">
+            <button class="btn btn-primary" (click)="editBooking()">
+              Submit Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

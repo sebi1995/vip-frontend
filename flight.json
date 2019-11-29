@@ -1,0 +1,190 @@
+{
+  "request": {
+    "airline": { "requestedCode": "SV", "fsCode": "SV" },
+    "flight": { "requested": "117", "interpreted": "117" },
+    "date": {
+      "year": "2019",
+      "month": "4",
+      "day": "29",
+      "interpreted": "2019-04-29"
+    },
+    "utc": { "requested": "false", "interpreted": false },
+    "airport": {},
+    "codeType": {},
+    "extendedOptions": {},
+    "url": "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/SV/117/arr/2019/04/29"
+  },
+  "appendix": {
+    "airlines": [
+      {
+        "fs": "SV",
+        "iata": "SV",
+        "icao": "SVA",
+        "name": "Saudia",
+        "phoneNumber": "1-800-472-8342",
+        "active": true
+      }
+    ],
+    "airports": [
+      {
+        "fs": "RUH",
+        "iata": "RUH",
+        "icao": "OERK",
+        "faa": "",
+        "name": "King Khalid International Airport",
+        "city": "Riyadh",
+        "cityCode": "RUH",
+        "countryCode": "SA",
+        "countryName": "Saudi Arabia",
+        "regionName": "Middle East",
+        "timeZoneRegionName": "Asia/Riyadh",
+        "weatherZone": "",
+        "localTime": "2019-04-29T23:13:24.372",
+        "utcOffsetHours": 3.0,
+        "latitude": 24.959289,
+        "longitude": 46.702876,
+        "elevationFeet": 2049,
+        "classification": 2,
+        "active": true,
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/RUH?codeType=fs",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/RUH?codeType=fs"
+      },
+      {
+        "fs": "LHR",
+        "iata": "LHR",
+        "icao": "EGLL",
+        "faa": "",
+        "name": "London Heathrow Airport",
+        "city": "London",
+        "cityCode": "LON",
+        "stateCode": "EN",
+        "countryCode": "GB",
+        "countryName": "United Kingdom",
+        "regionName": "Europe",
+        "timeZoneRegionName": "Europe/London",
+        "weatherZone": "",
+        "localTime": "2019-04-29T21:13:24.372",
+        "utcOffsetHours": 1.0,
+        "latitude": 51.469603,
+        "longitude": -0.453566,
+        "elevationFeet": 80,
+        "classification": 1,
+        "active": true,
+        "delayIndexUrl": "https://api.flightstats.com/flex/delayindex/rest/v1/json/airports/LHR?codeType=fs",
+        "weatherUrl": "https://api.flightstats.com/flex/weather/rest/v1/json/all/LHR?codeType=fs"
+      }
+    ],
+    "equipments": [
+      {
+        "iata": "773",
+        "name": "Boeing 777-300",
+        "turboProp": false,
+        "jet": true,
+        "widebody": true,
+        "regional": false
+      },
+      {
+        "iata": "77W",
+        "name": "Boeing 777-300ER",
+        "turboProp": false,
+        "jet": true,
+        "widebody": true,
+        "regional": false
+      }
+    ]
+  },
+  "flightStatuses": [
+    {
+      "flightId": 998104428,
+      "carrierFsCode": "SV",
+      "flightNumber": "117",
+      "departureAirportFsCode": "RUH",
+      "arrivalAirportFsCode": "LHR",
+      "departureDate": {
+        "dateLocal": "2019-04-29T11:20:00.000",
+        "dateUtc": "2019-04-29T08:20:00.000Z"
+      },
+      "arrivalDate": {
+        "dateLocal": "2019-04-29T16:00:00.000",
+        "dateUtc": "2019-04-29T15:00:00.000Z"
+      },
+      "status": "L",
+      "schedule": {
+        "flightType": "J",
+        "serviceClasses": "FJY",
+        "restrictions": ""
+      },
+      "operationalTimes": {
+        "publishedDeparture": {
+          "dateLocal": "2019-04-29T11:20:00.000",
+          "dateUtc": "2019-04-29T08:20:00.000Z"
+        },
+        "publishedArrival": {
+          "dateLocal": "2019-04-29T16:00:00.000",
+          "dateUtc": "2019-04-29T15:00:00.000Z"
+        },
+        "scheduledGateDeparture": {
+          "dateLocal": "2019-04-29T11:20:00.000",
+          "dateUtc": "2019-04-29T08:20:00.000Z"
+        },
+        "estimatedGateDeparture": {
+          "dateLocal": "2019-04-29T11:42:00.000",
+          "dateUtc": "2019-04-29T08:42:00.000Z"
+        },
+        "actualGateDeparture": {
+          "dateLocal": "2019-04-29T11:42:00.000",
+          "dateUtc": "2019-04-29T08:42:00.000Z"
+        },
+        "estimatedRunwayDeparture": {
+          "dateLocal": "2019-04-29T11:58:00.000",
+          "dateUtc": "2019-04-29T08:58:00.000Z"
+        },
+        "actualRunwayDeparture": {
+          "dateLocal": "2019-04-29T11:58:00.000",
+          "dateUtc": "2019-04-29T08:58:00.000Z"
+        },
+        "scheduledGateArrival": {
+          "dateLocal": "2019-04-29T16:00:00.000",
+          "dateUtc": "2019-04-29T15:00:00.000Z"
+        },
+        "estimatedGateArrival": {
+          "dateLocal": "2019-04-29T16:44:00.000",
+          "dateUtc": "2019-04-29T15:44:00.000Z"
+        },
+        "actualGateArrival": {
+          "dateLocal": "2019-04-29T16:44:00.000",
+          "dateUtc": "2019-04-29T15:44:00.000Z"
+        },
+        "estimatedRunwayArrival": {
+          "dateLocal": "2019-04-29T16:31:00.000",
+          "dateUtc": "2019-04-29T15:31:00.000Z"
+        },
+        "actualRunwayArrival": {
+          "dateLocal": "2019-04-29T16:31:00.000",
+          "dateUtc": "2019-04-29T15:31:00.000Z"
+        }
+      },
+      "delays": {
+        "departureGateDelayMinutes": 22,
+        "arrivalGateDelayMinutes": 44
+      },
+      "flightDurations": {
+        "scheduledBlockMinutes": 400,
+        "blockMinutes": 422,
+        "airMinutes": 393,
+        "taxiOutMinutes": 16,
+        "taxiInMinutes": 13
+      },
+      "airportResources": {
+        "departureTerminal": "2",
+        "arrivalTerminal": "4",
+        "baggage": "1"
+      },
+      "flightEquipment": {
+        "scheduledEquipmentIataCode": "773",
+        "actualEquipmentIataCode": "77W",
+        "tailNumber": "HZ-AK38"
+      }
+    }
+  ]
+}
